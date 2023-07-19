@@ -31,7 +31,7 @@ import xml.etree.ElementTree as ET
 import hashlib
 
 
-with open("/data/options.json", "r") as f:
+with open("data/options.json", "r") as f:
     option_dict = json.load(f)
 # print(option_dict["x"])
 
