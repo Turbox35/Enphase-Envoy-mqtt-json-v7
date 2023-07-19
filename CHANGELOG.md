@@ -1,3 +1,5 @@
+v1.0.9 19th July 2023 TODO - Cache v7 token so it will work when offline
+
 v1.0.8 15th July 2023
 
 Firmware 5 and 7 compatible thanks to helderfmf
@@ -15,8 +17,6 @@ MQTT_TOPIC configurable.
 MQTT_TOPIC_FREEDS configurable Optionally.
 
 Get values with 1s interval for FW 7.
-
-TODO - Cache v7 token so it will work when offline
 
 v1.0.7      - 22nd December 2022 - Updated Documentation for new mqtt integration method in configuration.yaml
 
