@@ -16,6 +16,8 @@ MQTT_TOPIC_FREEDS configurable Optionally.
 
 Get values with 1s interval for FW 7.
 
+TODO - Cache v7 token so it will work when offline
+
 v1.0.7      - 22nd December 2022 - Updated Documentation for new mqtt integration method in configuration.yaml
 
 v1.0.5      - 12th April 2022 - Updated documentation url for online password generator
