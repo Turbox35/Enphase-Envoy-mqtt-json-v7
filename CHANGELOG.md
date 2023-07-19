@@ -1,8 +1,10 @@
-15th July 2023
+v1.0.8 15th July 2023
 
-Firmware 5 and 7 compatible.
+Firmware 5 and 7 compatible thanks to helderfmf
 
-Auto find witch firmware is installed of Envoy.
+** Note - you must now configure your Envoy username and password to obtain token for Firmware 7
+
+Auto find which firmware is installed in Envoy.
 
 Auto generate token for firmware 7.
 

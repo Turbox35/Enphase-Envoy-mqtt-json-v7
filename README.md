@@ -4,16 +4,13 @@ A Python script that takes a real time json stream from Enphase Envoy and publis
 
 **Note - Now works with 7.x.x firmware - thansk to @helderd.**
 
+**Breaking change. You must enter your Enphase account userid Email and password in Configuration so the token can be retreived**
+
 
 # Requirements
 
-- An Enphase Envoy running 5.x.x firmware.
-- The serial number of your Envoy which can be obtained by browsing to "http://envoy.local"
-- The installer password for your envoy. 
-  - To obtain the passsword via one of these methods:
-    1) Use this online generator: https://blahnana.com/passwordcalc.html
-    2) Run the included `passwordCalc.py` python script using your Envoys serial number after first editing `passwordCalc.py` and inserting your serial number. Don't change the `userName` - it must be installer
-        - The serial number program is courtesy of "https://github.com/sarnau/EnphaseEnergy"
+- An Enphase Envoy running 5.x.x or 7.x.x firmware.
+- For 7.x.x a token is automatically downloaded from Enphase every time the addon is started, so you must include your Enphase account username and password in configutaion
 - A mqtt broker that is already running - this can be external or use the `Mosquitto broker` from the Home Assistant Add-on store
     - If you use the HA broker add-on, create a Home Assistant user/password for mqtt as described in the `Mosquitto broker` installation instructions
 

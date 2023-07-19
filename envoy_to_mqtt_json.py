@@ -6,6 +6,8 @@
 # Version 1.1 7th November 2021 - Include date/time to output for checking 
 # Version 1.2 6th April 2022 - tidy up some comments
 # Version 1.3 7th April 2022 - converted to work as a Home Assistant Addon
+# 
+#Version 1.4 17th July 2023 - converted to work with V7 firmware by https://github.com/helderfmf
 #
 # Ian Mills
 # vk2him@gmail.com
