@@ -1,0 +1,31 @@
+name: "Stream mqtt from Enphase Envoy"
+description: "Converts Envoy Json to mqtt"
+version: "1.0.9.15"
+slug: "envoy_to_mqtt_json"
+init: false
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+  - i386
+options:
+  MQTT_HOST: ip.address.of.homeasistant
+  MQTT_USER: mqtt.user
+  MQTT_PASSWORD: mqtt.password
+  MQTT_PORT: 1883
+  ENVOY_HOST: envoy.local
+  ENVOY_USER: secret
+  ENVOY_USER_PASS: secret
+  TOPIC_FREEDS: Inverter/GridWatts
+  MQTT_TOPIC: envoy/json
+schema:
+  MQTT_HOST: str
+  MQTT_USER: str
+  MQTT_PASSWORD: password
+  MQTT_PORT: int
+  ENVOY_HOST: str
+  ENVOY_USER: email
+  ENVOY_USER_PASS: password
+  TOPIC_FREEDS: "str?"
+  MQTT_TOPIC: "str"
