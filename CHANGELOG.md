@@ -1,3 +1,5 @@
+v1.0.10 Cache the token in a file, only generating a new one if the cached one is not avaliable or expired.
+
 v1.0.9 19th July 2023 TODO - Cache v7 token so it will work when offline
 
 v1.0.8 15th July 2023
