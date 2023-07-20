@@ -527,25 +527,15 @@ def scrape_stream():
     marker = b'data: '
     while True:
         try:
-            url = 'http://%s/stream/meter' % ENVOY_HOST
-            stream = requests.get(url, auth=auth, stream=True, verify=False, timeout=5)
-            if stream.status_code == 401:
-                print(dt_string,'Failed to autenticate', stream)
-            elif stream.status_code != 200:
-                print(dt_string,'Failed connect to Envoy got ', stream)
-            else:
-                if is_json_valid(stream.content):
-                    for line in stream.iter_lines():
-                        if line.startswith(marker):
-                            data = json.loads(line.replace(marker, b''))
-                            json_string = json.dumps(data)
-                            print(dt_string, 'Json Response:', json_string)
-                            client.publish(topic= MQTT_TOPIC , payload= json_string, qos=0 )
-                            if USE_FREEDS: 
-                                json_string_freeds = data['net-consumption']['ph-a']['p']
-                                client.publish(topic= MQTT_TOPIC_FREEDS , payload= json_string_freeds, qos=0 )
-                else:
-                    print(dt_string, 'Invalid Json Response:', response_activate.content)
+            url = 'http://%s/stream/meter' % envoy_host
+            stream = requests.get(url, auth=auth, stream=True, timeout=5)
+            for line in stream.iter_lines():
+                if line.startswith(marker):
+                    data = json.loads(line.replace(marker, b''))
+                    json_string = json.dumps(data)
+                    #pp.pprint(json_string)
+                                    
+                    client.publish(topic= MQTT_TOPIC , payload= json_string, qos=0 )
         except requests.exceptions.RequestException as e:
             print(dt_string, ' Exception fetching stream data: %s' % e)
 
