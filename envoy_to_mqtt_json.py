@@ -379,11 +379,11 @@ def scrape_stream():
             print(dt_string,'Start the stream')
             url = 'http://%s/stream/meter' % ENVOY_HOST
             stream = requests.get(url, auth=auth, stream=True, verify=False, timeout=5)
-            if stream.status_code == 401:
-                print(dt_string,'Failed to autenticate', stream)
+            #if stream.status_code == 401:
+            print(dt_string,'Failed to autenticate', stream)
             #elif stream.status_code != 200:
             #    print(dt_string,'Failed connect to Envoy got ', stream)
-            else:
+            #else:
                 print(dt_string,'Got this stream:', stream.content)
                 print(dt_string,'Will validate:')
                 if is_json_valid(stream.content):
