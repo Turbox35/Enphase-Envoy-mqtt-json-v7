@@ -16,6 +16,7 @@ options:
   MQTT_PORT: 1883
   MQTT_TOPIC: envoy/json
   ENVOY_HOST: envoy.local
+  ENVOY_PASSWORD: envoy.password
   ENVOY_USER: Enter_Your_Enphase_Account_Email@youremail.com
   ENVOY_USER_PASS: your.Enphase_account.password
   USE_FREEDS: false
@@ -24,6 +25,7 @@ schema:
   MQTT_HOST: str
   MQTT_USER: str
   MQTT_PASSWORD: password
+  ENVOY_PASSWORD: password
   MQTT_PORT: int
   MQTT_TOPIC: str
   ENVOY_HOST: str
