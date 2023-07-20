@@ -527,7 +527,7 @@ def scrape_stream():
     marker = b'data: '
     while True:
         try:
-            url = 'http://%s/stream/meter' % envoy_host
+            url = 'http://%s/stream/meter' % ENVOY_HOST
             stream = requests.get(url, auth=auth, stream=True, timeout=5)
             for line in stream.iter_lines():
                 if line.startswith(marker):
