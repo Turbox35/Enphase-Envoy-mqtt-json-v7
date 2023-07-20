@@ -6,13 +6,10 @@
 # Version 1.1 7th November 2021 - Include date/time to output for checking 
 # Version 1.2 6th April 2022 - tidy up some comments
 # Version 1.3 7th April 2022 - converted to work as a Home Assistant Addon
-# 
-#Version 1.4 17th July 2023 - converted to work with V7 firmware by https://github.com/helderfmf
 #
 # Ian Mills
 # vk2him@gmail.com
 #
-
 
 import json
 import urllib3
@@ -33,7 +30,7 @@ import hashlib
 import os
 
 
-with open("/data/options.json", "r") as f:
+with open("data/options.json", "r") as f:
     option_dict = json.load(f)
 # print(option_dict["x"])
 
@@ -65,7 +62,7 @@ MQTT_TOPIC_FREEDS = "Inverter/GridWatts"
 userName = b'installer'
 DEFAULT_REALM = b'enphaseenergy.com'
 gSerialNumber = None
-tokenfile = '/data/token.txt'
+tokenfile = 'data/token.txt'
 ####  End Settings - no changes after this line
 
 #json validator
@@ -137,19 +134,19 @@ def token_gen(token):
 if not os.path.exists(tokenfile):
     with open(tokenfile, 'w') as f:
         f.write('')
-
-with open(tokenfile, 'r') as f:
-    try:
-        ENVOY_TOKEN = f.read()
-        if ENVOY_TOKEN:
-            print (dt_string, 'Read token from file',tokenfile,': ',ENVOY_TOKEN)
-            pass
-        else:
-            print (dt_string, 'No token in file:', tokenfile)
-            ENVOY_TOKEN=token_gen(None)
-            pass
-    except Exception as e:
-        print(e)
+if envoy_version == 7:
+    with open(tokenfile, 'r') as f:
+        try:
+            ENVOY_TOKEN = f.read()
+            if ENVOY_TOKEN:
+                print (dt_string, 'Read token from file',tokenfile,': ',ENVOY_TOKEN)
+                pass
+            else:
+                print (dt_string, 'No token in file:', tokenfile)
+                ENVOY_TOKEN=token_gen(None)
+                pass
+        except Exception as e:
+            print(e)
 
 # The callback for when the client receives a CONNACK response from the server.
     # Subscribing after on_connect() means that if the connection is lost
@@ -254,7 +251,6 @@ def emupwGetMobilePasswd(serialNumber,userName,realm=None):
             countZero = 20
         if countZero < 0:
             countZero = 0
-
         if countOne == 9 or countOne == 15:
             countOne = countOne -1
         if countOne > 26:
@@ -371,191 +367,41 @@ def scrape_stream_meters():
                     print(dt_string, 'Invalid Json Response:', stream.content)
         except requests.exceptions.RequestException as e:
             print(dt_string, ' Exception fetching stream data: %s' % e)
-# Example JSON output:
-"""
-[
-    {
-        "eid": 704643328,
-        "timestamp": 1689409016,
-        "actEnergyDlvd": 0.063,
-        "actEnergyRcvd": 7939.998,
-        "apparentEnergy": 63680.783,
-        "reactEnergyLagg": 788.493,
-        "reactEnergyLead": 3.712,
-        "instantaneousDemand": 0.000,
-        "activePower": 0.000,
-        "apparentPower": 43.086,
-        "reactivePower": -0.000,
-        "pwrFactor": 0.000,
-        "voltage": 237.151,
-        "current": 0.254,
-        "freq": 50.000,
-        "channels": [
-            {
-                "eid": 1778385169,
-                "timestamp": 1689409016,
-                "actEnergyDlvd": 0.063,
-                "actEnergyRcvd": 7939.998,
-                "apparentEnergy": 63680.783,
-                "reactEnergyLagg": 788.493,
-                "reactEnergyLead": 3.712,
-                "instantaneousDemand": 0.000,
-                "activePower": 0.000,
-                "apparentPower": 43.086,
-                "reactivePower": -0.000,
-                "pwrFactor": 0.000,
-                "voltage": 237.151,
-                "current": 0.254,
-                "freq": 50.000
-            },
-            {
-                "eid": 1778385170,
-                "timestamp": 1689409016,
-                "actEnergyDlvd": 0.061,
-                "actEnergyRcvd": 10104.018,
-                "apparentEnergy": 31694.583,
-                "reactEnergyLagg": 763.996,
-                "reactEnergyLead": 7.749,
-                "instantaneousDemand": -0.097,
-                "activePower": -0.097,
-                "apparentPower": 2.779,
-                "reactivePower": 0.000,
-                "pwrFactor": 0.000,
-                "voltage": 9.994,
-                "current": 0.278,
-                "freq": 50.000
-            },
-            {
-                "eid": 1778385171,
-                "timestamp": 1689409016,
-                "actEnergyDlvd": 0.000,
-                "actEnergyRcvd": 20943.151,
-                "apparentEnergy": 22986.373,
-                "reactEnergyLagg": 762.634,
-                "reactEnergyLead": 0.866,
-                "instantaneousDemand": -0.431,
-                "activePower": -0.431,
-                "apparentPower": 2.006,
-                "reactivePower": -0.000,
-                "pwrFactor": -1.000,
-                "voltage": 10.346,
-                "current": 0.194,
-                "freq": 50.000
-            }
-        ]
-    },
-    {
-        "eid": 704643584,
-        "timestamp": 1689409016,
-        "actEnergyDlvd": 3917484.219,
-        "actEnergyRcvd": 637541.835,
-        "apparentEnergy": 8370194.604,
-        "reactEnergyLagg": 113560.641,
-        "reactEnergyLead": 2299086.122,
-        "instantaneousDemand": -161.626,
-        "activePower": -161.626,
-        "apparentPower": 372.559,
-        "reactivePower": -212.953,
-        "pwrFactor": -0.431,
-        "voltage": 237.273,
-        "current": 1.571,
-        "freq": 50.000,
-        "channels": [
-            {
-                "eid": 1778385425,
-                "timestamp": 1689409016,
-                "actEnergyDlvd": 3917484.219,
-                "actEnergyRcvd": 637541.835,
-                "apparentEnergy": 8370194.604,
-                "reactEnergyLagg": 113560.641,
-                "reactEnergyLead": 2299086.122,
-                "instantaneousDemand": -161.626,
-                "activePower": -161.626,
-                "apparentPower": 372.559,
-                "reactivePower": -212.953,
-                "pwrFactor": -0.431,
-                "voltage": 237.273,
-                "current": 1.571,
-                "freq": 50.000
-            },
-            {
-                "eid": 1778385426,
-                "timestamp": 1689409016,
-                "actEnergyDlvd": 0.000,
-                "actEnergyRcvd": 18677.254,
-                "apparentEnergy": 10322.864,
-                "reactEnergyLagg": 798.595,
-                "reactEnergyLead": 0.000,
-                "instantaneousDemand": -0.222,
-                "activePower": -0.222,
-                "apparentPower": 0.898,
-                "reactivePower": 0.000,
-                "pwrFactor": 0.000,
-                "voltage": 3.024,
-                "current": 0.297,
-                "freq": 50.000
-            },
-            {
-                "eid": 1778385427,
-                "timestamp": 1689409016,
-                "actEnergyDlvd": 0.064,
-                "actEnergyRcvd": 27672.079,
-                "apparentEnergy": 115.734,
-                "reactEnergyLagg": 799.004,
-                "reactEnergyLead": 7.648,
-                "instantaneousDemand": -0.000,
-                "activePower": -0.000,
-                "apparentPower": 0.000,
-                "reactivePower": 0.000,
-                "pwrFactor": 0.000,
-                "voltage": 7.651,
-                "current": 0.000,
-                "freq": 50.000
-            }
-        ]
-    }
-]'
-"""
-
 
 def scrape_stream():
-    ENVOY_PASSWORD = None
     serial = serialNumber.encode("utf-8")
-    if ENVOY_PASSWORD =='' or ENVOY_PASSWORD == None : ENVOY_PASSWORD=emupwGetMobilePasswd(serial, userName)
+    ENVOY_PASSWORD=emupwGetMobilePasswd(serial, userName)
     print(dt_string, 'Envoy password is', ENVOY_PASSWORD)
     auth = HTTPDigestAuth(userName.decode(), ENVOY_PASSWORD)
     marker = b'data: '
     while True:
         try:
+            print(dt_string,'Start the stream')
             url = 'http://%s/stream/meter' % ENVOY_HOST
-            stream = requests.get(url, auth=auth, stream=True, timeout=5)
-            for line in stream.iter_lines():
-                if line.startswith(marker):
-                    data = json.loads(line.replace(marker, b''))
-                    json_string = json.dumps(data)
-                    #pp.pprint(json_string)
-                                    
-                    client.publish(topic= MQTT_TOPIC , payload= json_string, qos=0 )
+            stream = requests.get(url, auth=auth, stream=True, verify=False, timeout=5)
+            if stream.status_code == 401:
+                print(dt_string,'Failed to autenticate', stream)
+            #elif stream.status_code != 200:
+            #    print(dt_string,'Failed connect to Envoy got ', stream)
+            else:
+                print(dt_string,'Got this stream:', stream.content)
+                print(dt_string,'Will validate:')
+                if is_json_valid(stream.content):
+                    print(dt_string,'Validated')
+                    for line in stream.iter_lines():
+                        print(dt_string,'Lines:', line)
+                        if line.startswith(marker):
+                            data = json.loads(line.replace(marker, b''))
+                            json_string = json.dumps(data)
+                            print(dt_string, 'Json Response:', json_string)
+                            client.publish(topic= MQTT_TOPIC , payload= json_string, qos=0 )
+                            if USE_FREEDS: 
+                                json_string_freeds = data['net-consumption']['ph-a']['p']
+                                client.publish(topic= MQTT_TOPIC_FREEDS , payload= json_string_freeds, qos=0 )
+                else:
+                    print(dt_string, 'Invalid Json Response:', response_activate.content)
         except requests.exceptions.RequestException as e:
             print(dt_string, ' Exception fetching stream data: %s' % e)
-
-"""
-Sample truncated output data:
-data: {
-    "production": {
-        "ph-a": 
-        "ph-b": {
-        "ph-c": {
-            "p": -3.155,
-            "q": 241.832,
-            "s": 244.717,
-            "v": 246.138,
-            "i": 0.994,
-            "pf": 0.0,
-            "f": 50.0
-    "total-consumption":{
-    "net-consumption": {
-"""
 
 def main():
     #Use url https://envoy.local/production.json
