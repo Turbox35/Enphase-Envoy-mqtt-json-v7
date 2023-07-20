@@ -539,7 +539,7 @@ def scrape_stream():
                         if line.startswith(marker):
                             data = json.loads(line.replace(marker, b''))
                             json_string = json.dumps(data)
-                            #print(dt_string, 'Json Response:', json_string)
+                            print(dt_string, 'Json Response:', json_string)
                             client.publish(topic= MQTT_TOPIC , payload= json_string, qos=0 )
                             if USE_FREEDS: 
                                 json_string_freeds = data['net-consumption']['ph-a']['p']
