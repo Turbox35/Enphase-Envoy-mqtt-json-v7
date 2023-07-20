@@ -369,6 +369,7 @@ def scrape_stream_meters():
             print(dt_string, ' Exception fetching stream data: %s' % e)
 
 def scrape_stream():
+    ENVOY_PASSWORD = None
     serial = serialNumber.encode("utf-8")
     ENVOY_PASSWORD=emupwGetMobilePasswd(serial, userName)
     print(dt_string, 'Envoy password is', ENVOY_PASSWORD)
